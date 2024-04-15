@@ -1,5 +1,6 @@
 # 42_minitalk
-WIP - IPC (inter-process communication) between 'server' and 'client' process project at 42school
+WIP - IPC (inter-process communication) between 'server' and 'client' process project at 42school.
+
 It's about SIGNALS ;)
 The communication between the client and server has to be done only using UNIX signals.
 In this project, it's only allowed two signals: SIGUSR1 and SIGUSR2.
