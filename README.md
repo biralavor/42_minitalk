@@ -99,25 +99,25 @@ int main (int argc, char **argv)
 ```
 int	x = 100;		// global variable, just for this example ^.^
 
-void	signal_handler01(int signum)
+void signal_handler01(int signum)
 {
 	x +=10;
 	ft_printf("#1 task :: x =%d\n", x);
 }
 
-void	signal_handler02(int signum)
+void signal_handler02(int signum)
 {
 	x +=200;
 	ft_printf("#2 task :: x =%d\n", x);
 }
 
-void	signal_handler03(int signum)
+void signal_handler03(int signum)
 {
 	x +=3000;
 	ft_printf("#3 task :: x =%d\n", x);
 }
 
-int		main(void)
+int	main(void)
 {
 	pid_t pid;
 	signal(SIGINT, signal_handler01);		// task to perform = signal_handler01
