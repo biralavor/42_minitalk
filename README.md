@@ -6,7 +6,19 @@ The communication between the client and server has to be done only using UNIX s
 In this project, it's only allowed two signals: SIGUSR1 and SIGUSR2.
 
 ### Basic knowledge
-- **Signals** (signal name || default handler action || description)
+- **Signals** inform processes of asynchronous events
+  -  Signal classification:
+    -  Signals related to process termination
+      -  exit process
+      -  child parameter death
+    -  Signals related to process induced exceptions
+      -  outside virtual address was accessed
+      -  write on a read-only memory
+      -  hardware error or priviledge instruction execution
+    -  Signals related to unrecoverable condotions, during a system call
+      -  running out of system resources
+    -  Signals for tracing a process execution
+  - (signal name || default handler action || description)
   - 1# SIGHUP || Terminate || to block 
   - 2# SIGINT || Terminate || to kill a terminal process with ^C (ctrl+c)
   - 5# SIGTRAP || Core || to debbug a program with trace/breakpoints
@@ -21,3 +33,6 @@ In this project, it's only allowed two signals: SIGUSR1 and SIGUSR2.
   - the server waits for incomming client request by listening to a specified port. Once a request is received, the server accepts a conncetion from the client socket to complete the connection
   - all ports below 1024 are considered well know, and already reserved. This means that there are ports for specific standard services like: telnet(23), ftp(23), http(80) and so on...
   - every IPC process should have a client socket AND a server socket
+
+- Sending Signals
+  - Process_ID + Signal Number (or symbolic constant like SIGTERM)
