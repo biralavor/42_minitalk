@@ -45,6 +45,9 @@ _No data is delivered with traditional signals._
   - 15# SIGTERM || Terminate || A polite "please cleanup && terminate" signal (like shutdown a system)
   - 17# SIGCHLD || Ignore || Child process has terminated
 
+**Sending Signals**
+  - Process_ID + Signal Number (or symbolic constant like SIGTERM)
+
 **Signal handler (int signum)** is a function invoked to response to a given signal, ex.:
 ```
 \\ implement signal handler
@@ -56,24 +59,88 @@ void  signal_callback_handler(int signum)
   exit(signum);
 }
 ```
-**Signal system calls**
+**Signal system calls headers**
 ```
 #include <sys/signal.h>    // for signals
 #include <stdlib.h>        // for exit
-
-struct sigaction           // structure for signal action
-sigaction()                // change action for specified signal
-sigemptyset()              // initialize signal set to exclude all signals
-sigfillset()               // initialize signal set to include all signals
+#include <unistd.h>        // for sleep
+#include <string.h>        // for memset
 
 // Must always initialize the signal set first, by calling sigemptyset() or sigfillset()
+```
+**Signal system calls 1# exeample**
+```
+void cleanup (int signum)
+{
+  ft_printf("Caugth the signal number: %d\n", signum);
+  ft_printf("Doing program clean-up and exiting...\n");
+  exit(-1);
+}
 
 int main (int argc, char **argv)
 {
   struct sigaction sigact;                      // signal action structure
+
   memset((void *)&sigact, 0, sizeof(sigact));   // zero memory for sigact struct
+  sigact.sa_hanlder = cleanup;                  // set signal handler function
+  sigemptyset(&(sigaction.sa_mask));            // set signals to block during execution to empty set
+  if (sigaction(SIGINT, &sigact, NULL))
+  {
+    ft_printf("Error with sigaction: ");
+    return (-1);
+  }
+  ft_printf("Starting the program...");
+  sleep(30);
+  ft_printf("No signals; ending the program\n\n");
+  return(0);
+}
+```
+**Signal system calls 2# exeample**
+```
+int	x = 100;		// global variable, just for this example ^.^
+
+void	signal_handler01(int signum)
+{
+	x +=10;
+	ft_printf("#1 task :: x =%d\n", x);
 }
 
+void	signal_handler02(int signum)
+{
+	x +=200;
+	ft_printf("#2 task :: x =%d\n", x);
+}
+
+void	signal_handler03(int signum)
+{
+	x +=3000;
+	ft_printf("#3 task :: x =%d\n", x);
+}
+
+int		main(void)
+{
+	pid_t pid;
+	signal(SIGINT, signal_handler01);		// task to perform = signal_handler01
+	signal(SIGUSR1, sinal_handler02);		// task to perform = signal_handler02
+	signal(SIGUSR3, sinal_handler03);		// task to perform = signal_handler03
+	pid = fork();
+	if (pid == 0)
+	{
+		pid_t parent = getpid();
+		kill(parent, SIGINT);
+		sleep(1);
+		kill(parent, SIGUSR1);
+		sleep(1);
+		kill(parent, SIGUSR2);
+		sleep(1);
+		ft_printf("Child fork says x = %d\n", x);
+		return (0);
+	}
+	else
+	{
+		int stat;
+		wait(&stat);
+	}
 ```
 
 **Socket**
@@ -82,5 +149,4 @@ int main (int argc, char **argv)
 - all ports below 1024 are considered well know, and already reserved. This means that there are ports for specific standard services like: telnet(23), ftp(23), http(80) and so on...
 - every IPC process should have a client socket AND a server socket
 
-**Sending Signals**
-  - Process_ID + Signal Number (or symbolic constant like SIGTERM)
+
