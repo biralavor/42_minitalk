@@ -1,13 +1,25 @@
 # 42_minitalk
-WIP - IPC (inter-process communication) between 'server' and 'client' process project at 42school.
+WIP - IPC (inter-process communication) between 'server' and 'client' TCP (Transmission Control Protocol) process project at 42school.
 
-It's about SIGNALS in UNIX ;)
+This is a message-passing system, which has at least two operations and one method type:
+- (operation of) send a message (with fixed ou variable length size)
+- (operation of) receive a message
+- (methods of) a communication link:
+	- Direct ou indirect communication
+ 	- A-sync or Synchronous
+  	- Automatic ou explicit buffering
+
+This project it's also about SIGNALS in UNIX ;)
 The communication between the client and server has to be done only using UNIX signals.
 In this project, it's only allowed two signals: SIGUSR1 and SIGUSR2.
 
 The SIGUSR1 and SIGUSR2 signals are set aside for you to use any way you want. They’re useful for simple interprocess communication, if you write a signal handler for them in the program that receives the signal. (source: https://www.gnu.org/software/libc/manual/2.34/html_node/Standard-Signals.html)
 
-# Basic knowledge
+
+
+
+
+# Basic knowledge about Signals
 **Signals** inform processes of asynchronous events. Signals it's a short message sent to a process, or group of processes, containing a number identifying the signal. It's similar a event listner in Java (a.k.a. signal handler).
 The Kernel determines the signal type. **Kernel** is the core interface between the harware and its processes, making a bridge communication, and managing resources as efficientle as possible.
 _No data is delivered with traditional signals._
@@ -36,7 +48,7 @@ _No data is delivered with traditional signals._
     -  when process is about to return from user mode kernel
     -  when it enters of leaves the sleep state mode
 
-  //// (signal name || default handler action || description)
+  //// (signal name || default handler action || description) ////
   - 1# SIGHUP || Terminate || to block 
   - 2# SIGINT || Terminate || to INTerrupt a terminal process with ^C (ctrl+c)
   - 3# SIGQUIT || Terminate || QUIT a process (ctrl+d)
@@ -55,32 +67,51 @@ _No data is delivered with traditional signals._
 
 **Signal handler (int signum)** is a function invoked to response to a given signal, ex.:
 ```
-\\ implement signal handler
-signal(SIGINT, signal_callback_handler);
+// Establishing handlers with sigaction()
+sigaction(signal_type, &newaction, &oldaction);
 
-void  signal_callback_handler(int signum)
-{
-  ft_printf("Cautght signal %d\n", signum);
-  exit(signum);
-}
+struct sigaction {
+void		(*sa_sigaction)(int, siginfo_t *, void *);	// 
+void		(*sa_handler)(int);				// SIG_IGN, SIG_DFL, or your handler
+sigset_t	sa_mask;					// set of signals to be blocked during the execution
+								// in an array of booleans
+int		sa_flags;					// optional flags, like SA_RESTART, SA_NODEREF, SA_RESETHAND
+void		(*sa_restorer)(void);
+};
+
+// OLD signal handler implementation
+signal(SIGINT, signal_callback_handler);	// avoid using signal()
+
+// Must always initialize the signal set first,
+// by calling sigemptyset() or sigfillset(), adding your &variable inside of it.
 ```
+**Blocking Signals**
+```
+SIG_BLOCK	// add these signals to the mask
+SIG_UNBLOCK	// remove these signals from the mask
+SIG_SETMASK	// assign this signal set to the mask
+
+sigprocmask(how, &set, &oldset);
+// set = set of signals to add/subtract
+// olset = return the previous mask here
+
+// usage method:
+sigset_t set;
+sigemptyset(&set);
+sigaddset(&set, SIGHUP);
+
+sigprocmask(SIG_BLOCK, &set, NULL);
+sigprocmask(SIG_UNBLOCK, &set, NULL);
+```
+
 **Signal system calls headers**
 ```
 #include <sys/signal.h>    // for signals
 #include <stdlib.h>        // for exit
 #include <unistd.h>        // for sleep
 #include <string.h>        // for memset
-
-struct sigaction {
-	void		(*sa_handler)(int);
-	void		(*sa_sigaction)(int, siginfo_t *, void *);
-	sigset_t	sa_mask;
-	int			sa_flags;
-	void		(*sa_restorer)(void);
-};
-
-// Must always initialize the signal set first, by calling sigemptyset() or sigfillset()
 ```
+
 **Signal system calls 1# case**
 
 Here I'm using sigaction(2) (source: https://man7.org/linux/man-pages/man2/sigaction.2.html)
@@ -102,8 +133,9 @@ int	main (int argc, char **argv)
 	char	*client_char;
 
 	client_char = NULL;
-	memset((void *)&sigact, 0, sizeof(sigact));	// zero memory for sigact struct
-	// sigact.sa_handler = cleanup;				// set signal handler function
+	// memset((void *)&sigact, 0, sizeof(sigact));	// zero memory for sigact struct
+	sigemptyset(&sigact.sa_mask);			// to initialize and clear all the bits
+	// sigact.sa_handler = cleanup;			// set signal handler function
 	sigact.sa_handler = &handle_sigtstp;		// another set signal handler function
 	sigact.sa_flags = SA_RESTART;
 
@@ -129,9 +161,10 @@ int	main (int argc, char **argv)
 	return(0);
 }
 ```
+
 **Signal system calls 2# case**
 
-Here I'm using signal function, which reproduces the same behavior of sigaction.
+Here I'm using signal() function, which reproduces the same behavior of sigaction.
 
 However, as the manual signal(2) says: _the behaviour of signal() varies across UNIX versions, and has also vired historically across different version of Lunix. AVOID ITS USE. Use sigcation(2) instead._
 ```
@@ -179,6 +212,7 @@ int	main(void)
 		int stat;
 		wait(&stat);
 	}
+}
 ```
 
 ## Socket
