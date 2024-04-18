@@ -1,7 +1,7 @@
-# 42_minitalk
-WIP - IPC (inter-process communication) between 'server' and 'client' TCP (Transmission Control Protocol) process project at 42school.
+# 42_minitalk - Work in Progress @42sp.org.br
+This type of project is a IPC (inter-process communication) between 'server' and 'client' TCP (Transmission Control Protocol) process, using UNIX signals (SIGUSR1 and SIGUSR2).
 
-This is a message-passing system, which has at least two operations and one method type:
+It's a message-passing system, which has at least two operations and one method type:
 - (operation of) send a message (with fixed ou variable length size)
 - (operation of) receive a message
 - (methods of) a communication link:
@@ -10,13 +10,44 @@ This is a message-passing system, which has at least two operations and one meth
   	- Automatic ou explicit buffering
 
 This project it's also about SIGNALS in UNIX ;)
-The communication between the client and server has to be done only using UNIX signals.
-In this project, it's only allowed two signals: SIGUSR1 and SIGUSR2.
+The communication between the client and server has to be done only using two UNIX signals: SIGUSR1 and SIGUSR2.
 
 The SIGUSR1 and SIGUSR2 signals are set aside for you to use any way you want. They’re useful for simple interprocess communication, if you write a signal handler for them in the program that receives the signal. (source: https://www.gnu.org/software/libc/manual/2.34/html_node/Standard-Signals.html)
 
 
 
+////// Pending and Blocked Signals
+The _kernel_ maintains two bit-vectors for every process. It makes a distinction between _generating_ a signal and _delivering_ the signal.
+signal generation: kernel updates the data structure of the receiving process to record 'the signal was sent'
+signal delivery: kernel forces the receiving process to respond to the signal (e.g by invoking a signal handler)
+Every type of signal has a specific bit in this bit-vector
+
+Pending bit-vector records what signals have yet to be delivered to the process.
+Each process has:
+	- _linked list_ of pending signals
+	- ```siginfo_t``` struct records relevant details of the pending signal
+ 	- array of _signal action_ structs
+If multiple instances of a given signal occur before a process receives the signal, it will see **only one** instance of the signal.
+
+/////// Blocked bit-vector records what signals are currentle not allowed to be delivered to the process
+	- Can have a signal that is both blocked and pending
+ 	- When the signal is unblocked, it'll be delivered to the process
+  When a signal is delivered, that type of signal is automatically blocked for the process for:
+  	- Preventing a given signal handler from interrupting itself
+	- One kind of signal can interrupt another kind of signal
+
+
+
+
+
+**Project headers**
+```
+#include <signal.h>		// for signals, kill
+#include <sys/socket.h>	// for sockets connections
+#include <stdlib.h>		// for exit
+#include <unistd.h>		// for sleep, usleep, pause, getpid, write
+#include <string.h>		// for memset
+```
 
 
 # Basic knowledge about Signals
@@ -48,7 +79,7 @@ _No data is delivered with traditional signals._
     -  when process is about to return from user mode kernel
     -  when it enters of leaves the sleep state mode
 
-  //// (signal name || default handler action || description) ////
+  //// (signal name || defaultreturn to user process handler action || description) ////
   - 1# SIGHUP || Terminate || to block 
   - 2# SIGINT || Terminate || to INTerrupt a terminal process with ^C (ctrl+c)
   - 3# SIGQUIT || Terminate || QUIT a process (ctrl+d)
@@ -59,11 +90,16 @@ _No data is delivered with traditional signals._
   - 14# SIGALRM || Terminate || Expiry of alarm clock timer
   - 15# SIGTERM || Terminate || A polite "please cleanup && TERMinate" signal (like shutdown a system)
   - 17# SIGCHLD || Ignore || Child process has terminated
+  - 18# SIGCONT || Continue || Resumes a stopped process
   - ??# SIG_DFL || Reset || Modify the signal to the default action
 
 
-## Sending && Handling Signals - Use Cases
+
+## Generating, Delivering && Handling Signals - Use Cases
   - Process_ID + Signal Number (or symbolic constant like SIGTERM)
+
+![Screenshot from 2024-04-18 18-04-43](https://github.com/biralavor/42_minitalk/assets/80487147/26c34bc9-5aa2-4a6c-a964-599bbdb881f7)
+
 
 **Signal handler (int signum)** is a function invoked to response to a given signal, ex.:
 ```
@@ -91,9 +127,9 @@ SIG_BLOCK	// add these signals to the mask
 SIG_UNBLOCK	// remove these signals from the mask
 SIG_SETMASK	// assign this signal set to the mask
 
-sigprocmask(how, &set, &oldset);
 // set = set of signals to add/subtract
 // olset = return the previous mask here
+sigprocmask(how, &set, &oldset);
 
 // usage method:
 sigset_t set;
@@ -104,13 +140,6 @@ sigprocmask(SIG_BLOCK, &set, NULL);
 sigprocmask(SIG_UNBLOCK, &set, NULL);
 ```
 
-**Signal system calls headers**
-```
-#include <sys/signal.h>    // for signals
-#include <stdlib.h>        // for exit
-#include <unistd.h>        // for sleep
-#include <string.h>        // for memset
-```
 
 **Signal system calls 1# case**
 
@@ -164,9 +193,7 @@ int	main (int argc, char **argv)
 
 **Signal system calls 2# case**
 
-Here I'm using signal() function, which reproduces the same behavior of sigaction.
-
-However, as the manual signal(2) says: _the behaviour of signal() varies across UNIX versions, and has also vired historically across different version of Lunix. AVOID ITS USE. Use sigcation(2) instead._
+Here I'm using signal() function, which reproduces the same behavior of sigaction. However, as the manual signal(2) says: _the behaviour of signal() varies across UNIX versions, and has also vired historically across different version of Lunix. AVOID ITS USE. Use sigcation(2) instead._
 ```
 int	x = 100;	// global variable, just for this example ^.^
 
@@ -216,7 +243,7 @@ int	main(void)
 ```
 
 ## Socket
-- a socket is identified by an IP address concatenated with a port number (like-> 192.168.0.1:1625)
+A socket is identified by an IP address concatenated with a port number (like-> 192.168.0.1:1625)
 - the server waits for incomming client request by listening to a specified port. Once a request is received, the server accepts a conncetion from the client socket to complete the connection
 - all ports below 1024 are considered well know, and already reserved. This means that there are ports for specific standard services like: telnet(23), ftp(23), http(80) and so on...
 - every IPC process should have a client socket AND a server socket
