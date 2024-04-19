@@ -15,31 +15,6 @@ The communication between the client and server has to be done only using two UN
 The SIGUSR1 and SIGUSR2 signals are set aside for you to use any way you want. They’re useful for simple interprocess communication, if you write a signal handler for them in the program that receives the signal. (source: https://www.gnu.org/software/libc/manual/2.34/html_node/Standard-Signals.html)
 
 
-
-////// Pending and Blocked Signals
-The _kernel_ maintains two bit-vectors for every process. It makes a distinction between _generating_ a signal and _delivering_ the signal.
-signal generation: kernel updates the data structure of the receiving process to record 'the signal was sent'
-signal delivery: kernel forces the receiving process to respond to the signal (e.g by invoking a signal handler)
-Every type of signal has a specific bit in this bit-vector
-
-Pending bit-vector records what signals have yet to be delivered to the process.
-Each process has:
-	- _linked list_ of pending signals
-	- ```siginfo_t``` struct records relevant details of the pending signal
- 	- array of _signal action_ structs
-If multiple instances of a given signal occur before a process receives the signal, it will see **only one** instance of the signal.
-
-/////// Blocked bit-vector records what signals are currentle not allowed to be delivered to the process
-	- Can have a signal that is both blocked and pending
- 	- When the signal is unblocked, it'll be delivered to the process
-  When a signal is delivered, that type of signal is automatically blocked for the process for:
-  	- Preventing a given signal handler from interrupting itself
-	- One kind of signal can interrupt another kind of signal
-
-
-
-
-
 **Project headers**
 ```
 #include <signal.h>		// for signals, kill
@@ -48,7 +23,6 @@ If multiple instances of a given signal occur before a process receives the sign
 #include <unistd.h>		// for sleep, usleep, pause, getpid, write
 #include <string.h>		// for memset
 ```
-
 
 # Basic knowledge about Signals
 **Signals** inform processes of asynchronous events. Signals it's a short message sent to a process, or group of processes, containing a number identifying the signal. It's similar a event listner in Java (a.k.a. signal handler).
@@ -95,13 +69,52 @@ _No data is delivered with traditional signals._
 
 
 
+
+
+## Pending and Blocked Signals
+The _kernel_ maintains two bit-vectors for every process. It makes a distinction between _generating_ a signal and _delivering_ the signal.
+signal generation: kernel updates the data structure of the receiving process to record 'the signal was sent'
+signal delivery: kernel forces the receiving process to respond to the signal (e.g by invoking a signal handler)
+Every type of signal has a specific bit in this bit-vector
+
+### Pending Signal
+Pending bit-vector records what signals have yet to be delivered to the process.
+Each process has:
+	- _linked list_ of pending signals
+	- ```siginfo_t``` struct records relevant details of the pending signal
+ 	- array of _signal action_ structs
+If multiple instances of a given signal occur before a process receives the signal, it will see **only one** instance of the signal.
+A _bit_ setted as 0 = no, there is no peding signal
+A _bit_ setted as 1 = yes, there is a peding signal
+
+### Blocked Signal
+Blocked bit-vector records what signals are currentle not allowed to be delivered to the process
+	- Can have a signal that is both blocked and pending
+ 	- When the signal is unblocked, it'll be delivered to the process
+  When a signal is delivered, that type of signal is automatically blocked for the process for:
+  	- Preventing a given signal handler from interrupting itself
+	- One kind of signal can interrupt another kind of signal
+ 	- Can be set and cleared by usin the ```sigprocmask``` function
+
+
+
 ## Generating, Delivering && Handling Signals - Use Cases
   - Process_ID + Signal Number (or symbolic constant like SIGTERM)
 
 ![Screenshot from 2024-04-18 18-04-43](https://github.com/biralavor/42_minitalk/assets/80487147/26c34bc9-5aa2-4a6c-a964-599bbdb881f7)
 
 
-**Signal handler (int signum)** is a function invoked to response to a given signal, ex.:
+**Signal handler (int signum)** is a function invoked to response to a given signal. Keep in mid that:
+- Keep your handlers as simple as possible >> like setting a global flag and return.
+- Call only async-signal-safe functions, in your handlers >> like: !printf, !sprintf, !malloc, and !exit.
+- Save and restore errno on entry and exit >> so taht other handlers don't overwrite your value og errno.
+- Protect accesses to shared data structure by temporaly blocking all signals >> to prevent possible corruption
+- Declare global variables as volatile (?) >> to prevent compiler from storing them in a register
+- Declare global flags as volatile sig_atomic_t
+	- _flag:_ variable that is only read or write >> _flag = 1_ ✅ // _flag++_ ⛔
+ 	- flag declared this ways does not need to be protect like other globals.
+
+Signal handler struture:
 ```
 // Establishing handlers with sigaction()
 sigaction(signal_type, &newaction, &oldaction);
