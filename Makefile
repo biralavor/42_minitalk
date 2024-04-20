@@ -6,7 +6,7 @@
 #    By: umeneses <umeneses@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/15 11:58:00 by umeneses          #+#    #+#              #
-#    Updated: 2024/04/20 15:22:26 by umeneses         ###   ########.fr        #
+#    Updated: 2024/04/20 17:08:34 by umeneses         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,6 +47,7 @@ NAME_CLIENT				= client
 SERVER_FILES			= server_main.c
 
 CLIENT_FILES			= client_main.c
+CLIENT_FILES			+= client_val.c
 
 SERVER_FILES_ALL		= $(addprefix $(SRC_SERVER_D), $(SERVER_FILES))
 CLIENT_FILES_ALL		= $(addprefix $(SRC_CLIENT_D), $(CLIENT_FILES))
@@ -100,8 +101,27 @@ $(NAME_CLIENT):		libft_lib $(OBJS_CLIENT)
 					$(COMP_EXE_CLIENT)
 					@printf "$(GREEN)"
 					@echo "CLIENT Ready!"
+#					@echo "###############################################"
+#					@echo "                       _ _        _ _          "
+					$(MINITALK_HEADER)
 					@printf "$(YELLOW)"
-					@echo "Now, hit on terminal: './server' and './client PID MESSAGE'"
+					@echo "Now, open two terminals and hit on each:"
+					@echo "Terminal #1: ./server"
+					@echo "Terminal #2: ./client 'server PID'"
+					@printf "$(RESET)"
+
+$(MINITALK_HEADER):
+					@printf "$(CYAN)"
+					@printf "%s\n" "###############################################"
+#					@echo "                       _ _        _ _          "
+#					@echo "               (_)     (_) |      | | |        "
+#					@echo "		 _ __ ___  _ _ __  _| |_ __ _| | | __     "
+#					@echo "		| '_ ` _ \| | '_ \| | __/ _` | | |/ /     "
+#					@echo "		| | | | | | | | | | | || (_) | |   <      "
+#					@echo "		|_| |_| |_|_|_| |_|_|\__\__,_|_|_|\_\     "
+#					@echo "												  "
+#					@echo "###############################################"
+#					@echo "												  "
 					@printf "$(RESET)"
 
 libft_lib:
