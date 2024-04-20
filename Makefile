@@ -6,7 +6,7 @@
 #    By: umeneses <umeneses@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/15 11:58:00 by umeneses          #+#    #+#              #
-#    Updated: 2024/04/20 12:32:15 by umeneses         ###   ########.fr        #
+#    Updated: 2024/04/20 12:36:27 by umeneses         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -106,18 +106,26 @@ $(NAME_CLIENT):		libft_lib $(OBJS_CLIENT)
 
 libft_lib:
 					@printf "$(YELLOW)"
-					@echo "Checking LIBFT..."
+					@echo ">>> Checking LIBFT"
 					@printf "$(CYAN)"
 					$(MAKE) -C $(LIBFT_D)
 					@printf "$(RESET)"
 
 clean:
+					@printf "$(RED)"
+					@echo ">>> Cleaning objects"
+					@printf "$(PURPLE)"
 					$(RM) $(OBJS_ALL)
 					$(RM) $(BUILD_D)
 					$(MAKE) -C $(LIBFT_D) fclean
+					@printf "$(RESET)"
 
 fclean:				clean
+					@printf "$(RED)"
+					@echo ">>> Cleaning executables"
+					@printf "$(PURPLE)"
 					$(RM) $(NAME_SERVER) $(NAME_CLIENT)
+					@printf "$(RESET)"
 
 re:					fclean all
 
