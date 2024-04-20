@@ -84,8 +84,9 @@ Each process has:
 	- ```siginfo_t``` struct records relevant details of the pending signal
  	- array of _signal action_ structs
 If multiple instances of a given signal occur before a process receives the signal, it will see **only one** instance of the signal.
-A _bit_ setted as 0 = no, there is no peding signal
-A _bit_ setted as 1 = yes, there is a peding signal
+
+A _bit_ set as 0 = no, there is no peding signal
+A _bit_ set as 1 = yes, there is a peding signal
 
 ### Blocked Signal
 Blocked bit-vector records what signals are currentle not allowed to be delivered to the process
@@ -119,12 +120,14 @@ Signal handler struture:
 // Establishing handlers with sigaction()
 sigaction(signal_type, &newaction, &oldaction);
 
+// ```sa_handler``` = SIG_IGN, SIG_DFL, or your handler
+// ```sa_mask``` = set of signals to be blocked during the execution in an array of booleans
+// ```sa_flags``` = optional flags, like SA_RESTART, SA_NODEREF, SA_RESETHAND
 struct sigaction {
-void		(*sa_sigaction)(int, siginfo_t *, void *);	// 
-void		(*sa_handler)(int);				// SIG_IGN, SIG_DFL, or your handler
-sigset_t	sa_mask;					// set of signals to be blocked during the execution
-								// in an array of booleans
-int		sa_flags;					// optional flags, like SA_RESTART, SA_NODEREF, SA_RESETHAND
+void		(*sa_sigaction)(int, siginfo_t *, void *);
+void		(*sa_handler)(int);				
+sigset_t	sa_mask;
+int			sa_flags;
 void		(*sa_restorer)(void);
 };
 
