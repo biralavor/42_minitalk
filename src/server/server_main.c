@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   server_main.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: umeneses <umeneses@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 13:06:25 by umeneses          #+#    #+#             */
-/*   Updated: 2024/04/19 16:47:27 by umeneses         ###   ########.fr       */
+/*   Updated: 2024/04/20 12:31:02 by umeneses         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,20 +21,18 @@ void	handler_sigusr1(int sig)
 	printf("User 1\n");
 }
 
-int	main(int argc, char **argv)
+int	main(void)
 {
 	struct sigaction	sigact;
 
-	if (argc == 2)
-	{
+
 		while (1)
 		{
 			sigemptyset(&sigact.sa_mask);
 			sigact.sa_handler = &handler_sigusr1;
-			printf("Starting...\n");
+			printf("Server is Starting...\n");
 			sigaction(SIGUSR1, &sigact, NULL);
 			sleep(1);
 		}
-	}
 	return (0);
 }

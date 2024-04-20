@@ -6,7 +6,7 @@
 #    By: umeneses <umeneses@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/15 11:58:00 by umeneses          #+#    #+#              #
-#    Updated: 2024/04/15 15:01:14 by umeneses         ###   ########.fr        #
+#    Updated: 2024/04/20 12:32:15 by umeneses         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,31 +26,37 @@ RESET			:= \033[0m
 #								PATHS										   #
 # **************************************************************************** #
 
-HEADERS				= ./headers/
-HEADERS				+= $(LIBFT_D)includes/
-SRC_D				= ./src/
-LIBS_D				= ./libs/
-LIBFT_D				= $(LIBS_D)libft/
-BUILD_D				= ./build/
+HEADERS					= ./headers/
+HEADERS					+= $(LIBFT_D)includes/
+SRC_SERVER_D			= ./src/server/
+SRC_CLIENT_D			= ./src/client/
+LIBS_D					= ./libs/
+LIBFT_D					= $(LIBS_D)libft/
+BUILD_D					= ./build/
 
 # **************************************************************************** #
 #								FILES										   #
 # **************************************************************************** #
 
-LIBFT				= $(addprefix $(LIBFT_D), libft.a)
-LIBS				= $(LIBFT)
+LIBFT					= $(addprefix $(LIBFT_D), libft.a)
+LIBS					= $(LIBFT)
 
-NAME				= minitalk
+NAME_SERVER				= server
+NAME_CLIENT				= client
 
-FILES				= main.c
+SERVER_FILES			= server_main.c
 
-FILES_ALL			= $(addprefix $(SRC_D), $(FILES))
+CLIENT_FILES			= client_main.c
 
-OBJS				= $(addprefix $(BUILD_D), $(FILES_ALL:%.c=%.o))
-OBJS_ALL			= $(OBJS)
+SERVER_FILES_ALL		= $(addprefix $(SRC_SERVER_D), $(SERVER_FILES))
+CLIENT_FILES_ALL		= $(addprefix $(SRC_CLIENT_D), $(CLIENT_FILES))
+
+OBJS_SERVER				= $(addprefix $(BUILD_D), $(SERVER_FILES_ALL:%.c=%.o))
+OBJS_CLIENT				= $(addprefix $(BUILD_D), $(CLIENT_FILES_ALL:%.c=%.o))
+OBJS_ALL				= $(OBJS_SERVER) $(OBJS_CLIENT)
 
 # **************************************************************************** #
-#								COMMANDS										   #
+#								COMMANDS									   #
 # **************************************************************************** #
 
 RM					= rm -rf
@@ -61,34 +67,46 @@ MV_OBJS				= find . -type f \( -name '.o' -o -name '.a'\) -exec mv {} \
 #								COMPILATION									   #
 # **************************************************************************** #
 
-AUTHOR				= umeneses
-CC					= cc
-CFLAGS				= -Wall -Wextra -Werror -g3
-CPPFLAGS			= $(addprefix -I, $(HEADERS)) -MMD -MP
-LDFLAGS				= -ldl -pthread -lm
-COMPILE_OBJS		= $(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
-COMPILE_EXE			= $(CC) $(OBJS_ALL) $(LDFLAGS) $(LIBS) -o $(NAME)
+AUTHOR			= umeneses
+CC				= cc
+CFLAGS			= -Wall -Wextra -Werror -g3
+CPPFLAGS		= $(addprefix -I, $(HEADERS)) -MMD -MP
+LDFLAGS			= $(addprefix -L, $(dir $(LIBS_D)))
+LDLIBS			= -ldl -pthread -lm
+COMP_OBJS		= $(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
+COMP_EXE_SERVER	= $(CC) $(LDFLAGS) $(OBJS_SERVER) $(LDLIBS) -o $(NAME_SERVER)
+COMP_EXE_CLIENT	= $(CC) $(LDFLAGS) $(OBJS_CLIENT) $(LDLIBS) -o $(NAME_CLIENT)
 
 # **************************************************************************** #
 #								TARGETS										   #
 # **************************************************************************** #
 
-all: 				libft_lib $(NAME)
+all: 				$(NAME_SERVER) $(NAME_CLIENT)
 
 $(BUILD_D)%.o:		%.c
 					$(MKDIR) $(dir $@)
-					$(COMPILE_OBJS)
+					$(COMP_OBJS)
 					@echo "Compiling: $(notdir $<)"
 
-$(NAME):			$(OBJS_ALL)
-					$(COMPILE_EXE)
+$(NAME_SERVER):		libft_lib $(OBJS_SERVER)
+					$(COMP_EXE_SERVER)
 					@printf "$(GREEN)"
-					@echo "Minitalk Ready!"
+					@echo "SERVER Ready!"
+					@printf "$(YELLOW)"
+					@echo "Next target >>>> client..."
+					@printf "$(RESET)"
+
+$(NAME_CLIENT):		libft_lib $(OBJS_CLIENT)
+					$(COMP_EXE_CLIENT)
+					@printf "$(GREEN)"
+					@echo "CLIENT Ready!"
 					@printf "$(YELLOW)"
 					@echo "Now, hit on terminal: './server' and './client PID MESSAGE'"
 					@printf "$(RESET)"
 
 libft_lib:
+					@printf "$(YELLOW)"
+					@echo "Checking LIBFT..."
 					@printf "$(CYAN)"
 					$(MAKE) -C $(LIBFT_D)
 					@printf "$(RESET)"
@@ -99,7 +117,7 @@ clean:
 					$(MAKE) -C $(LIBFT_D) fclean
 
 fclean:				clean
-					$(RM) $(NAME)
+					$(RM) $(NAME_SERVER) $(NAME_CLIENT)
 
 re:					fclean all
 
