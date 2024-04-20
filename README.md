@@ -116,13 +116,13 @@ Blocked bit-vector records what signals are currentle not allowed to be delivere
  	- flag declared this ways does not need to be protect like other globals.
 
 Signal handler struture:
+```sa_handler``` = SIG_IGN, SIG_DFL, or your handler
+```sa_mask``` = set of signals to be blocked during the execution in an array of booleans
+```sa_flags``` = optional flags, like SA_RESTART, SA_NODEREF, SA_RESETHAND
 ```
 // Establishing handlers with sigaction()
 sigaction(signal_type, &newaction, &oldaction);
 
-// ```sa_handler``` = SIG_IGN, SIG_DFL, or your handler
-// ```sa_mask``` = set of signals to be blocked during the execution in an array of booleans
-// ```sa_flags``` = optional flags, like SA_RESTART, SA_NODEREF, SA_RESETHAND
 struct sigaction {
 void		(*sa_sigaction)(int, siginfo_t *, void *);
 void		(*sa_handler)(int);				
