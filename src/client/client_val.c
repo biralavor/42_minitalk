@@ -1,30 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   client_main.c                                      :+:      :+:    :+:   */
+/*   client_val.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: umeneses <umeneses@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/18 13:06:25 by umeneses          #+#    #+#             */
-/*   Updated: 2024/04/20 17:39:16 by umeneses         ###   ########.fr       */
+/*   Created: 2024/04/20 16:44:06 by umeneses          #+#    #+#             */
+/*   Updated: 2024/04/20 17:01:21 by umeneses         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
 
-int	main(int argc, char **argv)
+static void	ft_msg_error(char *str);
+
+int	arg_validation(int argc, char *pid_input)
 {
 	int	server_pid;
 
-	server_pid = arg_validation(argc, argv[PID]);
-	ft_putstr_fd("Client is Starting...\n", STDOUT_FILENO);
-	ft_putstr_fd("Now, connecting to Server using PID: ", STDOUT_FILENO);
-	ft_putnbr_fd(server_pid, STDOUT_FILENO);
-	ft_putstr_fd("\n", STDOUT_FILENO);
-	while (1)
+	if (argc != ARG_SIZE)
 	{
-		ft_putstr_fd("Client is running...\n", STDOUT_FILENO);
-		sleep(2);
+		ft_msg_error("Error >> Invalid number of arguments.\n");
+		exit(EXIT_FAILURE);
 	}
-	exit(EXIT_SUCCESS);
+	server_pid = ft_atoi(pid_input);
+	while (*pid_input)
+	{
+		if (!ft_isdigit(*pid_input++))
+			ft_msg_error("Error >> Invalid PID.\n");
+	}
+	return (server_pid);
+}
+
+static void	ft_msg_error(char *str)
+{
+	ft_putstr_fd(str, STDERR_FILENO);
+	exit(EXIT_FAILURE);
 }

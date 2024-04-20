@@ -1,30 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   client_main.c                                      :+:      :+:    :+:   */
+/*   client_signal.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: umeneses <umeneses@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/18 13:06:25 by umeneses          #+#    #+#             */
-/*   Updated: 2024/04/20 17:39:16 by umeneses         ###   ########.fr       */
+/*   Created: 2024/04/20 17:39:23 by umeneses          #+#    #+#             */
+/*   Updated: 2024/04/20 17:41:30 by umeneses         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
 
-int	main(int argc, char **argv)
+void	client_signal(int input_pid, char *msg)
 {
-	int	server_pid;
+	struct sigaction	client_act;
 
-	server_pid = arg_validation(argc, argv[PID]);
-	ft_putstr_fd("Client is Starting...\n", STDOUT_FILENO);
-	ft_putstr_fd("Now, connecting to Server using PID: ", STDOUT_FILENO);
-	ft_putnbr_fd(server_pid, STDOUT_FILENO);
-	ft_putstr_fd("\n", STDOUT_FILENO);
-	while (1)
-	{
-		ft_putstr_fd("Client is running...\n", STDOUT_FILENO);
-		sleep(2);
-	}
-	exit(EXIT_SUCCESS);
+	sigemptyset(&client_act.sa_mask);
+	client_act.sa_flags = SA_SIGINFO;
+	client_act.sa_sigaction = handler_act;
+	if ((sigaction(SIGUSR1, &client_act, NULL) == CLIENT_FAIL)
+		|| (sigaction(SIGUSR2, &client_act, NULL) == CLIENT_FAIL))
+		ft_msg_error("Error >> Server signal failed.\n");
+
+
 }
