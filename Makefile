@@ -6,7 +6,7 @@
 #    By: umeneses <umeneses@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/15 11:58:00 by umeneses          #+#    #+#              #
-#    Updated: 2024/04/20 17:08:34 by umeneses         ###   ########.fr        #
+#    Updated: 2024/04/22 15:55:59 by umeneses         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -79,6 +79,26 @@ COMP_EXE_SERVER	= $(CC) $(LDFLAGS) $(OBJS_SERVER) $(LDLIBS) -o $(NAME_SERVER)
 COMP_EXE_CLIENT	= $(CC) $(LDFLAGS) $(OBJS_CLIENT) $(LDLIBS) -o $(NAME_CLIENT)
 
 # **************************************************************************** #
+#								DEFINES										   #
+# **************************************************************************** #
+
+define				minitalk_header
+					@printf "$(CYAN)"
+					@echo "                                               "
+					@echo "###############   WELCOME TO   ################"
+					@echo "                        _ _        _           "
+					@echo "               (_)     (_) |      | | |        "
+					@echo "      _ __ ___  _ _ __  _| |_ __ _| | | __     "
+					@echo "     |  _   _ \| |  _ \| | __/ _  | | |/ /     "
+					@echo "     | | | | | | | | | | | || (_) | |   <      "
+					@echo "     |_| |_| |_|_|_| |_|_|\__\__,_|_|_|\_\     "
+					@echo "                                               "
+					@echo "###############################################"
+					@echo "                                               "
+					@printf "$(RESET)"
+endef
+
+# **************************************************************************** #
 #								TARGETS										   #
 # **************************************************************************** #
 
@@ -90,7 +110,7 @@ $(BUILD_D)%.o:		%.c
 					@echo "Compiling: $(notdir $<)"
 
 $(NAME_SERVER):		libft_lib $(OBJS_SERVER)
-					$(COMP_EXE_SERVER)
+					@$(COMP_EXE_SERVER)
 					@printf "$(GREEN)"
 					@echo "SERVER Ready!"
 					@printf "$(YELLOW)"
@@ -98,31 +118,16 @@ $(NAME_SERVER):		libft_lib $(OBJS_SERVER)
 					@printf "$(RESET)"
 
 $(NAME_CLIENT):		libft_lib $(OBJS_CLIENT)
-					$(COMP_EXE_CLIENT)
+					@$(COMP_EXE_CLIENT)
 					@printf "$(GREEN)"
 					@echo "CLIENT Ready!"
-#					@echo "###############################################"
-#					@echo "                       _ _        _ _          "
-					$(MINITALK_HEADER)
+					$(call minitalk_header)
 					@printf "$(YELLOW)"
 					@echo "Now, open two terminals and hit on each:"
 					@echo "Terminal #1: ./server"
 					@echo "Terminal #2: ./client 'server PID'"
 					@printf "$(RESET)"
 
-$(MINITALK_HEADER):
-					@printf "$(CYAN)"
-					@printf "%s\n" "###############################################"
-#					@echo "                       _ _        _ _          "
-#					@echo "               (_)     (_) |      | | |        "
-#					@echo "		 _ __ ___  _ _ __  _| |_ __ _| | | __     "
-#					@echo "		| '_ ` _ \| | '_ \| | __/ _` | | |/ /     "
-#					@echo "		| | | | | | | | | | | || (_) | |   <      "
-#					@echo "		|_| |_| |_|_|_| |_|_|\__\__,_|_|_|\_\     "
-#					@echo "												  "
-#					@echo "###############################################"
-#					@echo "												  "
-					@printf "$(RESET)"
 
 libft_lib:
 					@printf "$(YELLOW)"
