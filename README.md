@@ -135,11 +135,13 @@ int			sa_flags;
 void		(*sa_restorer)(void);
 };
 
-// OLD signal handler implementation
-signal(SIGINT, signal_callback_handler);	// avoid using signal()
+> [!TIP]
+> The structure Must always initialize the signal set first,
+> by calling sigemptyset() or sigfillset(), adding your &variable inside of it.
 
-// Must always initialize the signal set first,
-// by calling sigemptyset() or sigfillset(), adding your &variable inside of it.
+> [!CAUTION]
+> Here is an OLD signal handler implementation:
+> signal(SIGINT, signal_callback_handler);	// avoid using signal()
 ```
 **Blocking Signals**
 ```
@@ -197,7 +199,7 @@ int	main (int argc, char **argv)
 		// sigaction to use the actual result in that sigaction
 		while (1)
 		{
-			printf("client char = %s -> pid[%d}\n", client_char, getpid());
+			printf("client char = %s -> pid[%d]\n", client_char, getpid());
 			sleep(1);
 		}
 		return (0);
@@ -261,6 +263,8 @@ int	main(void)
 	}
 }
 ```
+
+# Not-mandatory, but still useful information for brain connections, lol
 
 ## Socket
 A socket is identified by an IP address concatenated with a port number (like-> 192.168.0.1:1625)
