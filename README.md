@@ -112,12 +112,16 @@ Blocked bit-vector records what signals are currentle not allowed to be delivere
 - Protect accesses to shared data structure by temporaly blocking all signals >> to prevent possible corruption
 - Declare global variables as volatile (?) >> to prevent compiler from storing them in a register
 - Declare global flags as volatile sig_atomic_t
-	- _flag:_ variable that is only read or write >> _flag = 1_ ✅ // _flag++_ ⛔
- 	- flag declared this ways does not need to be protect like other globals.
+	- Create a _flag_ variable that is only read or write. A flag declared the way below does not need to be protect like other globals.
+ 		- ```flag = 1``` ✅
+   		- ```flag++``` ⛔ (<< don't do it like this)
 
 Signal handler struture:
+
 ```sa_handler``` = SIG_IGN, SIG_DFL, or your handler
+
 ```sa_mask``` = set of signals to be blocked during the execution in an array of booleans
+
 ```sa_flags``` = optional flags, like SA_RESTART, SA_NODEREF, SA_RESETHAND
 ```
 // Establishing handlers with sigaction()
