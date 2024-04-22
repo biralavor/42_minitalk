@@ -6,7 +6,7 @@
 /*   By: umeneses <umeneses@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 13:06:25 by umeneses          #+#    #+#             */
-/*   Updated: 2024/04/20 17:39:16 by umeneses         ###   ########.fr       */
+/*   Updated: 2024/04/22 17:22:54 by umeneses         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	main(int argc, char **argv)
 	while (1)
 	{
 		ft_putstr_fd("Client is running...\n", STDOUT_FILENO);
-		sleep(2);
+		sleep(3);
 	}
 	exit(EXIT_SUCCESS);
 }
