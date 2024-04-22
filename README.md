@@ -134,7 +134,7 @@ sigset_t	sa_mask;
 int			sa_flags;
 void		(*sa_restorer)(void);
 };
-
+```
 > [!TIP]
 > The structure Must always initialize the signal set first,
 > by calling sigemptyset() or sigfillset(), adding your &variable inside of it.
@@ -142,7 +142,6 @@ void		(*sa_restorer)(void);
 > [!CAUTION]
 > Here is an OLD signal handler implementation:
 > signal(SIGINT, signal_callback_handler);	// avoid using signal()
-```
 **Blocking Signals**
 ```
 SIG_BLOCK	// add these signals to the mask
@@ -264,7 +263,8 @@ int	main(void)
 }
 ```
 
-# Not-mandatory, but still useful information for brain connections, lol
+# Not-mandatory
+But still useful information for brain connections, lol
 
 ## Socket
 A socket is identified by an IP address concatenated with a port number (like-> 192.168.0.1:1625)
