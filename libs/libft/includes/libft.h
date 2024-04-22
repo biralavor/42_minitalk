@@ -6,7 +6,7 @@
 /*   By: umeneses <umeneses@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 20:30:01 by umeneses          #+#    #+#             */
-/*   Updated: 2024/01/19 11:42:00 by umeneses         ###   ########.fr       */
+/*   Updated: 2024/04/22 15:07:20 by umeneses         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,5 +125,8 @@ t_char			*ft_gnl_get_let(char let);
 void			ft_gnl_join_let(t_char **head, t_char *new_let);
 char			*ft_gnl_clear_nodes(t_char *str);
 /* gnl prototype functions */
+
+void	ft_error_msg(char *string);
+/* my functions */
 
 #endif

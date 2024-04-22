@@ -6,7 +6,7 @@
 #    By: umeneses <umeneses@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/26 20:31:36 by umeneses          #+#    #+#              #
-#    Updated: 2024/04/20 13:53:34 by umeneses         ###   ########.fr        #
+#    Updated: 2024/04/22 15:03:39 by umeneses         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -93,6 +93,8 @@ FILES				+= ft_gnl_get_line.c
 FILES				+= ft_gnl_join_let.c
 FILES				+= ft_gnl_join_line.c
 # ****** gnl functions ****** #
+FILES				+= ft_error_msg.c
+# ****** my functions ****** #
 
 SRC_FILES			= $(addprefix $(SRC_D), $(FILES))
 
