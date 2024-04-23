@@ -6,7 +6,7 @@
 /*   By: umeneses <umeneses@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 20:30:01 by umeneses          #+#    #+#             */
-/*   Updated: 2024/04/22 15:07:20 by umeneses         ###   ########.fr       */
+/*   Updated: 2024/04/23 14:28:49 by umeneses         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,15 @@
 #  define MAX_FDS 1024
 # endif
 /* Definitions for GNL BUFFER */
+
+# define RED "\033[0;31m"
+# define GREEN "\033[0;32m"
+# define YELLOW "\033[0;33m"
+# define BLUE "\033[0;34m"
+# define PURPLE "\033[0;35m"
+# define CYAN "\033[0;36m"
+# define COLOR_RESET "\033[0m"
+/* Color definitions for STDOUT */
 
 typedef struct lib_s_list
 {

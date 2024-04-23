@@ -6,7 +6,7 @@
 /*   By: umeneses <umeneses@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 17:39:23 by umeneses          #+#    #+#             */
-/*   Updated: 2024/04/22 18:06:56 by umeneses         ###   ########.fr       */
+/*   Updated: 2024/04/23 14:25:12 by umeneses         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@ void	client_signal(int input_pid, char *msg)
 {
 	struct sigaction	client_act;
 
-	// sigemptyset(&client_act.sa_mask);
-	ft_memset(&client_act, CL_DEFAULT, sizeof(client_act));
-	// client_act.sa_flags = SA_SIGINFO;
-	client_act.sa_flags = CL_DEFAULT;
+	sigemptyset(&client_act.sa_mask);
+	// ft_memset(&client_act, CL_DEFAULT, sizeof(client_act));
+	client_act.sa_flags = SA_SIGINFO;
+	// client_act.sa_flags = CL_DEFAULT;
 	client_act.sa_handler = cl_handler_act;
 	if ((sigaction(SIGUSR1, &client_act, NULL) == CLIENT_FAIL)
 		|| (sigaction(SIGUSR2, &client_act, NULL) == CLIENT_FAIL))
@@ -31,13 +31,12 @@ static void	cl_handler_act(int signal)
 {
 	if (signal == SIGURS1)
 	{
-		ft_putstr_fd("Now, SIGUSR>>1 msg..\n", STDOUT_FILENO);
+		ft_putstr_fd("Client signal handler SIGUSR>>1 msg..\n", STDOUT_FILENO);
 		ft_connection(SET, SET);
 	}
 	if (signal == SIGURS2)
 	{
-		ft_putstr_fd("Now, SIGUSR>>2 msg..\n", STDOUT_FILENO);
-		ft_connection(SET, SET);
+		ft_putstr_fd("Client signal handler SIGUSR>>2 msg..\n", STDOUT_FILENO);
 	}
 }
 
@@ -47,5 +46,5 @@ static int	ft_connection(int income, int check)
 
 	if (check == SET)
 		connection = income;
-	return (connection);	
+	return (connection);
 }

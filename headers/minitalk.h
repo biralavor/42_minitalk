@@ -6,7 +6,7 @@
 /*   By: umeneses <umeneses@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 12:49:06 by umeneses          #+#    #+#             */
-/*   Updated: 2024/04/22 18:13:20 by umeneses         ###   ########.fr       */
+/*   Updated: 2024/04/23 14:21:14 by umeneses         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,14 @@
 # include <unistd.h>
 # include <signal.h>
 # include <fcntl.h>
+
+# define RED "\033[0;31m"
+# define GREEN "\033[0;32m"
+# define YELLOW "\033[0;33m"
+# define BLUE "\033[0;34m"
+# define PURPLE "\033[0;35m"
+# define CYAN "\033[0;36m"
+# define COLOR_RESET "\033[0m"
 
 enum e_server
 {
@@ -33,6 +41,7 @@ enum e_client
 {
 	CL_DEFAULT = 0,
 	CLIENT_FAIL = -1,
+	MSG_ARG = 2,
 };
 
 enum e_validation
@@ -53,11 +62,5 @@ int	arg_validation(int argc, char *pid_input);
 /* non-static client functions */
 
 /* non-static server functions */
-
-// static void	sv_handler_act(int sig, siginfo_t *info, void *ucontext);
-/* static server functions */
-
-// static void	cl_handler_act(int signal);
-/* static client functions */
 
 #endif
