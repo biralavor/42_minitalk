@@ -68,9 +68,6 @@ _No data is delivered with traditional signals._
   - ??# SIG_DFL || Reset || Modify the signal to the default action
 
 
-
-
-
 ## Pending and Blocked Signals
 The _kernel_ maintains two bit-vectors for every process. It makes a distinction between _generating_ a signal and _delivering_ the signal.
 signal generation: kernel updates the data structure of the receiving process to record 'the signal was sent'
@@ -111,10 +108,11 @@ Blocked bit-vector records what signals are currentle not allowed to be delivere
 - Save and restore errno on entry and exit >> so taht other handlers don't overwrite your value og errno.
 - Protect accesses to shared data structure by temporaly blocking all signals >> to prevent possible corruption
 - Declare global variables as volatile (?) >> to prevent compiler from storing them in a register
-- Declare global flags as volatile sig_atomic_t
-	- Create a _flag_ variable that is only read or write. A flag declared the way below does not need to be protect like other globals.
- 		- ```flag = 1``` ✅
-   		- ```flag++``` ⛔ (<< don't do it like this)
+> [!TIP]
+> - Declare global flags as volatile sig_atomic_t
+> - Create a _flag_ variable that is only read or write. A flag declared the way below does not need to be protect like other globals.
+>	- ```flag = 1``` ✅
+>	- ```flag++``` ⛔ (<< don't do it like this)
 
 Signal handler struture:
 
@@ -142,12 +140,13 @@ void		(*sa_restorer)(void);
 > [!CAUTION]
 > Here is an OLD signal handler implementation:
 > signal(SIGINT, signal_callback_handler);	// avoid using signal()
-**Blocking Signals**
-```
-SIG_BLOCK	// add these signals to the mask
-SIG_UNBLOCK	// remove these signals from the mask
-SIG_SETMASK	// assign this signal set to the mask
 
+**Blocking Signals**
+```SIG_BLOCK```	// add these signals to the mask
+```SIG_UNBLOCK```	// remove these signals from the mask
+```SIG_SETMASK```	// assign this signal set to the mask
+
+```
 // set = set of signals to add/subtract
 // olset = return the previous mask here
 sigprocmask(how, &set, &oldset);
@@ -271,5 +270,3 @@ A socket is identified by an IP address concatenated with a port number (like-> 
 - the server waits for incomming client request by listening to a specified port. Once a request is received, the server accepts a conncetion from the client socket to complete the connection
 - all ports below 1024 are considered well know, and already reserved. This means that there are ports for specific standard services like: telnet(23), ftp(23), http(80) and so on...
 - every IPC process should have a client socket AND a server socket
-
-
