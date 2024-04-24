@@ -6,7 +6,7 @@
 /*   By: umeneses <umeneses@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 12:49:06 by umeneses          #+#    #+#             */
-/*   Updated: 2024/04/23 14:21:14 by umeneses         ###   ########.fr       */
+/*   Updated: 2024/04/23 17:31:48 by umeneses         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,10 @@ enum e_signal
 	GET = -1,
 };
 
-int	arg_validation(int argc, char *pid_input);
+int		arg_validation(int argc, char *pid_input);
+void	cl_init(int server_pid);
+void	cl_handle_msg(int input_pid, char *msg);
+void	cl_sendingsignal(int input_pid, char *msg);
 /* non-static client functions */
 
 /* non-static server functions */

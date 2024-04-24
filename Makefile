@@ -6,7 +6,7 @@
 #    By: umeneses <umeneses@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/15 11:58:00 by umeneses          #+#    #+#              #
-#    Updated: 2024/04/22 15:55:59 by umeneses         ###   ########.fr        #
+#    Updated: 2024/04/23 17:06:12 by umeneses         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,6 +47,7 @@ NAME_CLIENT				= client
 SERVER_FILES			= server_main.c
 
 CLIENT_FILES			= client_main.c
+CLIENT_FILES			+= client_signal.c
 CLIENT_FILES			+= client_val.c
 
 SERVER_FILES_ALL		= $(addprefix $(SRC_SERVER_D), $(SERVER_FILES))
