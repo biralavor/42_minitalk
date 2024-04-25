@@ -6,7 +6,7 @@
 /*   By: umeneses <umeneses@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 14:50:51 by umeneses          #+#    #+#             */
-/*   Updated: 2024/04/25 19:01:24 by umeneses         ###   ########.fr       */
+/*   Updated: 2024/04/25 19:38:23 by umeneses         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ char	*ft_dec_to_binary(int number)
 	return (binary);
 }
 
-int	main (void)
+int	main(void)
 {
 	int		number;
 	char	*binary;

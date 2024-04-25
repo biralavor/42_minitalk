@@ -6,7 +6,7 @@
 /*   By: umeneses <umeneses@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 11:54:52 by umeneses          #+#    #+#             */
-/*   Updated: 2024/04/18 14:38:11 by umeneses         ###   ########.fr       */
+/*   Updated: 2024/04/25 19:36:05 by umeneses         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void	cleanup (int signum)
 	printf("Doing program clean-up and exiting...\n");
 	exit(-1);
 }
+
 void	handle_sigtstp(int sig)
 {
 	printf("\nNOT TODAY, haha\n");
@@ -29,7 +30,7 @@ void	handle_sigtstp(int sig)
 
 int	main (int argc, char **argv)
 {
-	struct sigaction	sigact;					// signal action structure
+	struct sigaction	sigact;		// signal action structure
 	char				*client_char;
 
 	client_char = NULL;
@@ -38,7 +39,6 @@ int	main (int argc, char **argv)
 	// sigact.sa_handler = cleanup;				// set signal handler function
 	sigact.sa_handler = &handle_sigtstp;		// another set signal handler function
 	sigact.sa_flags = SA_RESTART;
-
 	if (argc == 2)
 	{
 		client_char = argv[1];
