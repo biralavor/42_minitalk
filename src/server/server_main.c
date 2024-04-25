@@ -6,7 +6,7 @@
 /*   By: umeneses <umeneses@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 13:06:25 by umeneses          #+#    #+#             */
-/*   Updated: 2024/04/23 17:19:45 by umeneses         ###   ########.fr       */
+/*   Updated: 2024/04/25 19:41:30 by umeneses         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	main(void)
 	struct sigaction	server_act;
 
 	// sigemptyset(&server_act.sa_mask);
-	ft_memset(&server_act, SV_DEFAULT, sizeof(server_act));
+	ft_memset(&server_act, SIG_DEFAULT, sizeof(server_act));
 	server_act.sa_flags = SA_SIGINFO;
 	server_act.sa_sigaction = sv_handler_act;
 	if ((sigaction(SIGUSR1, &server_act, NULL) == SERVER_FAIL)

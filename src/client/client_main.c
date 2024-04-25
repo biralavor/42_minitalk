@@ -6,7 +6,7 @@
 /*   By: umeneses <umeneses@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 13:06:25 by umeneses          #+#    #+#             */
-/*   Updated: 2024/04/24 12:29:31 by umeneses         ###   ########.fr       */
+/*   Updated: 2024/04/25 19:52:17 by umeneses         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,9 @@ int	main(int argc, char **argv)
 	cl_init(server_pid);
 	while (1)
 	{
-		// ft_putstr_fd("Type your message:\n", STDOUT_FILENO);
-		// ft_putstr_fd(">> ", STDOUT_FILENO);
-		// cl_sendingsignal(server_pid, argv[MSG_ARG]);
+		ft_putstr_fd("Type your message:\n", STDOUT_FILENO);
+		ft_putstr_fd(">> ", STDOUT_FILENO);
+		cl_sendingsignal(server_pid, argv[MSG_ARG]);
 		sleep(10);
 	}
 	exit(EXIT_SUCCESS);
