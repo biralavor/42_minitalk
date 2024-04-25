@@ -6,7 +6,7 @@
 #    By: umeneses <umeneses@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/26 20:31:36 by umeneses          #+#    #+#              #
-#    Updated: 2024/04/22 15:03:39 by umeneses         ###   ########.fr        #
+#    Updated: 2024/04/25 18:55:07 by umeneses         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -94,6 +94,8 @@ FILES				+= ft_gnl_join_let.c
 FILES				+= ft_gnl_join_line.c
 # ****** gnl functions ****** #
 FILES				+= ft_error_msg.c
+FILES				+= ft_dec_to_binary.c
+FILES				+= ft_strreversing_order.c
 # ****** my functions ****** #
 
 SRC_FILES			= $(addprefix $(SRC_D), $(FILES))
