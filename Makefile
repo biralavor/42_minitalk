@@ -6,7 +6,7 @@
 #    By: umeneses <umeneses@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/15 11:58:00 by umeneses          #+#    #+#              #
-#    Updated: 2024/04/23 17:06:12 by umeneses         ###   ########.fr        #
+#    Updated: 2024/04/26 20:14:23 by umeneses         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -126,7 +126,7 @@ $(NAME_CLIENT):		libft_lib $(OBJS_CLIENT)
 					@printf "$(YELLOW)"
 					@echo "Now, open two terminals and hit on each:"
 					@echo "Terminal #1: ./server"
-					@echo "Terminal #2: ./client 'server PID'"
+					@echo "Terminal #2: ./client [server's_PID] [your_message]"
 					@printf "$(RESET)"
 
 
