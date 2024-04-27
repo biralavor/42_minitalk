@@ -6,13 +6,13 @@
 /*   By: umeneses <umeneses@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 13:06:25 by umeneses          #+#    #+#             */
-/*   Updated: 2024/04/27 16:27:57 by umeneses         ###   ########.fr       */
+/*   Updated: 2024/04/27 18:22:07 by umeneses         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
 
-void	cl_init(int server_pid)
+void	cl_init(int server_pid, char *msg)
 {
 	ft_putstr_fd(YELLOW, STDOUT_FILENO);
 	ft_putstr_fd("Client is starting...\n", STDOUT_FILENO);
@@ -20,8 +20,11 @@ void	cl_init(int server_pid)
 	ft_putstr_fd(CYAN, STDOUT_FILENO);
 	ft_putnbr_fd(server_pid, STDOUT_FILENO);
 	ft_putchar_fd('\n', STDOUT_FILENO);
+	ft_putstr_fd(GREEN, STDOUT_FILENO);
+	ft_putstr_fd("Client is running and sending >> ", STDOUT_FILENO);
 	ft_putstr_fd(YELLOW, STDOUT_FILENO);
-	ft_putstr_fd("Client is running...\n", STDOUT_FILENO);
+	ft_putstr_fd(msg, STDOUT_FILENO);
+	ft_putstr_fd("\n", STDOUT_FILENO);
 }
 
 void	cl_msg_header(int server_pid)
@@ -66,12 +69,12 @@ void	cl_msg_tail(int server_pid)
 
 int	main(int argc, char **argv)
 {
-	int					server_pid;
-	int					next_char;
+	int	server_pid;
+	int	next_char;
 
 	next_char = 0;
 	server_pid = arg_validation(argc, argv[ARG_PID]);
-	cl_init(server_pid);
+	cl_init(server_pid, argv[ARG_MSG]);
 	if (cl_sigaction_init())
 	{
 		cl_msg_header(server_pid);
