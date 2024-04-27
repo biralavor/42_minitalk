@@ -6,7 +6,7 @@
 /*   By: umeneses <umeneses@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 12:49:06 by umeneses          #+#    #+#             */
-/*   Updated: 2024/04/23 17:31:48 by umeneses         ###   ########.fr       */
+/*   Updated: 2024/04/26 21:09:21 by umeneses         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,6 @@
 
 enum e_server
 {
-	SV_DEFAULT = 0,
-	BYTE_SIZE = 8,
-	BIT = 1,
 	SERVER_FAIL = -1,
 	RESET = 0,
 	WAIT = 1,
@@ -39,29 +36,32 @@ enum e_server
 
 enum e_client
 {
-	CL_DEFAULT = 0,
 	CLIENT_FAIL = -1,
-	MSG_ARG = 2,
+	ARG_MSG = 2,
+	BYTE_SIZE = 8,
+	BIT = 1,
 };
 
 enum e_validation
 {
-	ARG_SIZE = 2,
-	PID = 1,
+	ARG_SIZE = 3,
+	ARG_PID = 1,
 };
 
 enum e_signal
 {
-	PENDING_NO = 0,
-	PENDING_YES = 1,
-	SET = 1,
-	GET = -1,
+	SIG_PENDING_NO = 0,
+	SIG_PENDING_YES = 1,
+	SIG_DEFAULT = 0,
+	SIG_SET = 1,
+	SIG_GET = -1,
 };
 
 int		arg_validation(int argc, char *pid_input);
 void	cl_init(int server_pid);
-void	cl_handle_msg(int input_pid, char *msg);
-void	cl_sendingsignal(int input_pid, char *msg);
+// void	cl_send_msg(int server_pid, const char *msg);
+void	cl_sendingsignal(int server_pid, char c_msg);
+void	cl_send_bit(int server_pid, char c_msg);
 /* non-static client functions */
 
 /* non-static server functions */

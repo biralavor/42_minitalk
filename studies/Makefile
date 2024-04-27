@@ -6,7 +6,7 @@
 #    By: umeneses <umeneses@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/15 11:58:00 by umeneses          #+#    #+#              #
-#    Updated: 2024/04/26 21:05:00 by umeneses         ###   ########.fr        #
+#    Updated: 2024/04/25 18:56:53 by umeneses         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,10 +26,9 @@ RESET			:= \033[0m
 #								PATHS										   #
 # **************************************************************************** #
 
-SRC_SERVER_D			= ./src/server/
-SRC_CLIENT_D			= ./src/client/
+SRC_STUDY				= ./
 BUILD_D					= ./build/
-LIBS_D					= ./libs/
+LIBS_D					= ../libs/
 LIBFT_D					= $(LIBS_D)libft/
 HEADERS_ADDED			= $(LIBFT_D)includes/
 HEADERS					= ./headers/ $(HEADERS_ADDED)
@@ -41,21 +40,14 @@ HEADERS					= ./headers/ $(HEADERS_ADDED)
 LIBFT					= $(addprefix $(LIBFT_D), libft.a)
 LIBS					= $(LIBFT_D)libft.a
 
-NAME_SERVER				= server
-NAME_CLIENT				= client
+NAME					= studies
 
-SERVER_FILES			= server_main.c
+STUDY_FILES				= study_bitwise_02.c
 
-CLIENT_FILES			= client_main.c
-#CLIENT_FILES			+= client_signal.c
-CLIENT_FILES			+= client_val.c
+STUDY_FILES_ALL			= $(addprefix $(SRC_STUDY), $(STUDY_FILES))
 
-SERVER_FILES_ALL		= $(addprefix $(SRC_SERVER_D), $(SERVER_FILES))
-CLIENT_FILES_ALL		= $(addprefix $(SRC_CLIENT_D), $(CLIENT_FILES))
-
-OBJS_SERVER				= $(addprefix $(BUILD_D), $(SERVER_FILES_ALL:%.c=%.o))
-OBJS_CLIENT				= $(addprefix $(BUILD_D), $(CLIENT_FILES_ALL:%.c=%.o))
-OBJS_ALL				= $(OBJS_SERVER) $(OBJS_CLIENT)
+OBJS_STUDIES			= $(addprefix $(BUILD_D), $(STUDY_FILES_ALL:%.c=%.o))
+OBJS_ALL				= $(OBJS_STUDIES)
 
 # **************************************************************************** #
 #								COMMANDS									   #
@@ -76,8 +68,7 @@ CPPFLAGS		= $(addprefix -I, $(HEADERS)) -MMD -MP
 LDFLAGS			= $(addprefix -L, $(dir $(LIBS)))
 LDLIBS			= -lft -ldl
 COMP_OBJS		= $(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
-COMP_EXE_SERVER	= $(CC) $(LDFLAGS) $(OBJS_SERVER) $(LDLIBS) -o $(NAME_SERVER)
-COMP_EXE_CLIENT	= $(CC) $(LDFLAGS) $(OBJS_CLIENT) $(LDLIBS) -o $(NAME_CLIENT)
+COMP_EXE_STUDY	= $(CC) $(LDFLAGS) $(OBJS_STUDIES) $(LDLIBS) -o $(NAME)
 
 # **************************************************************************** #
 #								DEFINES										   #
@@ -103,30 +94,19 @@ endef
 #								TARGETS										   #
 # **************************************************************************** #
 
-all: 				$(NAME_SERVER) $(NAME_CLIENT)
+all: 				$(NAME) $(NAME_CLIENT)
 
 $(BUILD_D)%.o:		%.c
 					@$(MKDIR) $(dir $@)
 					@$(COMP_OBJS)
 					@echo "Compiling: $(notdir $<)"
 
-$(NAME_SERVER):		libft_lib $(OBJS_SERVER)
-					@$(COMP_EXE_SERVER)
+$(NAME):		libft_lib $(OBJS_STUDIES)
+					@$(COMP_EXE_STUDY)
 					@printf "$(GREEN)"
 					@echo "SERVER Ready!"
 					@printf "$(YELLOW)"
 					@echo "Next target >>>> client..."
-					@printf "$(RESET)"
-
-$(NAME_CLIENT):		libft_lib $(OBJS_CLIENT)
-					@$(COMP_EXE_CLIENT)
-					@printf "$(GREEN)"
-					@echo "CLIENT Ready!"
-					$(call minitalk_header)
-					@printf "$(YELLOW)"
-					@echo "Now, open two terminals and hit on each:"
-					@echo "Terminal #1: ./server"
-					@echo "Terminal #2: ./client [server's_PID] [your_message]"
 					@printf "$(RESET)"
 
 
@@ -152,7 +132,7 @@ fclean:				clean
 					@printf "$(RED)"
 					@echo ">>> Cleaning executables"
 					@printf "$(PURPLE)"
-					$(RM) $(NAME_SERVER) $(NAME_CLIENT)
+					$(RM) $(NAME)
 					@printf "$(RESET)"
 
 re:					fclean all

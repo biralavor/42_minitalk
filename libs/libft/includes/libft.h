@@ -6,7 +6,7 @@
 /*   By: umeneses <umeneses@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/26 20:30:01 by umeneses          #+#    #+#             */
-/*   Updated: 2024/04/23 14:28:49 by umeneses         ###   ########.fr       */
+/*   Updated: 2024/04/25 19:36:28 by umeneses         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,9 @@ void			ft_gnl_join_let(t_char **head, t_char *new_let);
 char			*ft_gnl_clear_nodes(t_char *str);
 /* gnl prototype functions */
 
-void	ft_error_msg(char *string);
+void			ft_error_msg(char *string);
+char			*ft_dec_to_binary(int number);
+char			*ft_strreversing_order(char *string);
 /* my functions */
 
 #endif
