@@ -6,7 +6,7 @@
 /*   By: umeneses <umeneses@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 17:39:23 by umeneses          #+#    #+#             */
-/*   Updated: 2024/04/27 14:45:20 by umeneses         ###   ########.fr       */
+/*   Updated: 2024/04/27 15:10:57 by umeneses         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,8 @@ bool	cl_sigaction_init(void)
 		sigaction(SIGUSR1, &client_act, NULL);
 		return (true);
 	}
-	else
-	{
-		ft_error_msg("Client signal failed.\n");
-		return (false);
-	}
+	ft_error_msg("Client signal initialization failed.\n");
+	return (false);
 }
 
 static void	server_signal_handler(int signal)
