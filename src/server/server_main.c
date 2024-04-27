@@ -6,26 +6,33 @@
 /*   By: umeneses <umeneses@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 13:06:25 by umeneses          #+#    #+#             */
-/*   Updated: 2024/04/25 19:41:30 by umeneses         ###   ########.fr       */
+/*   Updated: 2024/04/26 21:28:08 by umeneses         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minitalk.h"
 
-static void	sv_handler_act(int sig, siginfo_t *info, void *ucontext)
+static void	client_signal_handler(int sig, siginfo_t *info, void *ucontext)
 {
+	static int	received_bit;
+	static char	c;
+
 	(void)ucontext;
-	(void)info;
 	if (sig == SIGUSR1)
+		c += 0 << received_bit;
+	if (sig == SIGUSR2)
+		c += 1 << received_bit;
+	received_bit++;
+	if (received_bit == BYTE_SIZE)
 	{
 		ft_putstr_fd(CYAN, STDOUT_FILENO);
-		ft_putstr_fd("Connection established, using SIGUSR1\n", STDOUT_FILENO);
-		ft_putstr_fd(GREEN, STDOUT_FILENO);
+		ft_putstr_fd("########### Client Message ###########\n", STDOUT_FILENO);
+		ft_putchar_fd(c, STDOUT_FILENO);
+		received_bit = SIG_DEFAULT;
+		c = SIG_DEFAULT;
 	}
-	if (sig == SIGUSR2)
-	{
-		ft_putstr_fd("inside server SIGUSR >> 2\n", STDOUT_FILENO);
-	}
+	if (kill(info->si_pid, SIGUSR1) == SERVER_FAIL)
+		ft_error_msg("Server failed to send signal to Client.\n");
 }
 
 int	main(void)
@@ -35,19 +42,19 @@ int	main(void)
 	// sigemptyset(&server_act.sa_mask);
 	ft_memset(&server_act, SIG_DEFAULT, sizeof(server_act));
 	server_act.sa_flags = SA_SIGINFO;
-	server_act.sa_sigaction = sv_handler_act;
+	server_act.sa_sigaction = client_signal_handler;
 	if ((sigaction(SIGUSR1, &server_act, NULL) == SERVER_FAIL)
 		|| (sigaction(SIGUSR2, &server_act, NULL) == SERVER_FAIL))
 		ft_error_msg("Server signal failed.\n");
 	ft_putstr_fd(GREEN, STDOUT_FILENO);
 	ft_putstr_fd("Server is starting...\n", STDOUT_FILENO);
-	ft_putstr_fd("Your Server PID is: ", STDOUT_FILENO);
+	ft_putstr_fd("Your Server PID is >>> ", STDOUT_FILENO);
 	ft_putstr_fd(CYAN, STDOUT_FILENO);
 	ft_putnbr_fd(getpid(), STDOUT_FILENO);
 	ft_putstr_fd(GREEN, STDOUT_FILENO);
 	ft_putstr_fd("\n", STDOUT_FILENO);
 	ft_putstr_fd("Server is running \\o/\n", STDOUT_FILENO);
 	while (WAIT)
-		sleep(10);
+		pause();
 	exit(EXIT_SUCCESS);
 }
