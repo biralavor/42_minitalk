@@ -6,7 +6,7 @@
 /*   By: umeneses <umeneses@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 17:39:23 by umeneses          #+#    #+#             */
-/*   Updated: 2024/04/27 16:24:59 by umeneses         ###   ########.fr       */
+/*   Updated: 2024/04/27 18:36:59 by umeneses         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,11 @@ static int	ft_connection(int income, int check)
 
 	if (check == SIG_SET)
 		connection = income;
+	if ((income = SIG_GET) && (check == SIG_SET))
+	{
+		ft_putstr_fd(GREEN, STDOUT_FILENO);
+		ft_putstr_fd("\nServer confirms a char delivery!", STDOUT_FILENO);
+	}
 	return (connection);
 }
 
