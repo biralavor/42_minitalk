@@ -6,7 +6,7 @@
 /*   By: umeneses <umeneses@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 12:49:06 by umeneses          #+#    #+#             */
-/*   Updated: 2024/04/26 21:09:21 by umeneses         ###   ########.fr       */
+/*   Updated: 2024/04/27 15:00:28 by umeneses         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <unistd.h>
 # include <signal.h>
 # include <fcntl.h>
+# include <stdbool.h>
 
 # define RED "\033[0;31m"
 # define GREEN "\033[0;32m"
@@ -59,7 +60,7 @@ enum e_signal
 
 int		arg_validation(int argc, char *pid_input);
 void	cl_init(int server_pid);
-// void	cl_send_msg(int server_pid, const char *msg);
+bool	cl_sigaction_init(void);
 void	cl_sendingsignal(int server_pid, char c_msg);
 void	cl_send_bit(int server_pid, char c_msg);
 /* non-static client functions */

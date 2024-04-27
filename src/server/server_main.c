@@ -6,7 +6,7 @@
 /*   By: umeneses <umeneses@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 13:06:25 by umeneses          #+#    #+#             */
-/*   Updated: 2024/04/27 13:14:06 by umeneses         ###   ########.fr       */
+/*   Updated: 2024/04/27 14:57:38 by umeneses         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ static void	client_signal_handler(int sig, siginfo_t *info, void *ucontext)
 		ft_putstr_fd(CYAN, STDOUT_FILENO);
 		ft_putstr_fd("\n########### Client Message ###########\n", STDOUT_FILENO);
 		ft_putchar_fd(c, STDOUT_FILENO);
+		ft_putchar_fd('\n', STDOUT_FILENO);
 		received_bit = SIG_DEFAULT;
 		c = SIG_DEFAULT;
 	}
