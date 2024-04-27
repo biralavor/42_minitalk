@@ -6,7 +6,7 @@
 /*   By: umeneses <umeneses@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/25 14:50:51 by umeneses          #+#    #+#             */
-/*   Updated: 2024/04/25 19:38:23 by umeneses         ###   ########.fr       */
+/*   Updated: 2024/04/27 11:26:30 by umeneses         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	main(void)
 	int		number;
 	char	*binary;
 
-	number = 42;
+	number = '4';
 	binary = ft_dec_to_binary(number);
 	printf("number[%d] as a binary = %s\n", number, binary);
 	return (0);
