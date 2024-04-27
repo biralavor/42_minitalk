@@ -6,7 +6,7 @@
 /*   By: umeneses <umeneses@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 13:06:25 by umeneses          #+#    #+#             */
-/*   Updated: 2024/04/27 15:26:56 by umeneses         ###   ########.fr       */
+/*   Updated: 2024/04/27 16:12:22 by umeneses         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,18 +20,20 @@ static void	client_signal_handler(int sig, siginfo_t *info, void *ucontext)
 	(void)ucontext;
 	if (sig == SIGUSR1)
 	{
-		// ft_putchar_fd('0', STDOUT_FILENO);
+		ft_putchar_fd('0', STDOUT_FILENO);
 		c += 0 << received_bit;
 	}
 	if (sig == SIGUSR2)
 	{
-		// ft_putchar_fd('1', STDOUT_FILENO);
+		ft_putchar_fd('1', STDOUT_FILENO);
 		c += 1 << received_bit;
 	}
 	received_bit++;
 	if (received_bit == BYTE_SIZE)
 	{
+		ft_putchar_fd('\n', STDOUT_FILENO);
 		ft_putchar_fd(c, STDOUT_FILENO);
+		ft_putchar_fd('\n', STDOUT_FILENO);
 		received_bit = SIG_DEFAULT;
 		c = SIG_DEFAULT;
 	}

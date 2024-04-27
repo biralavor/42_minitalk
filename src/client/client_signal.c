@@ -6,7 +6,7 @@
 /*   By: umeneses <umeneses@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 17:39:23 by umeneses          #+#    #+#             */
-/*   Updated: 2024/04/27 16:05:00 by umeneses         ###   ########.fr       */
+/*   Updated: 2024/04/27 16:11:27 by umeneses         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	cl_send_bit(int server_pid, char c_msg)
 	{
 		ft_connection(SIG_DEFAULT, SIG_SET);
 		bit_signal = (c_msg >> bit_index & BIT);
-		// ft_putnbr_fd(bit_signal, STDOUT_FILENO);
+		ft_putnbr_fd(bit_signal, STDOUT_FILENO);
 		if (bit_signal == SIG_PENDING_NO)
 		{
 			if (kill(server_pid, SIGUSR1) == CLIENT_FAIL)

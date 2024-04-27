@@ -6,7 +6,7 @@
 /*   By: umeneses <umeneses@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 13:06:25 by umeneses          #+#    #+#             */
-/*   Updated: 2024/04/27 15:44:16 by umeneses         ###   ########.fr       */
+/*   Updated: 2024/04/27 16:11:03 by umeneses         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ void	cl_msg_tail(int server_pid)
 	index = 0;
 	color = CYAN;
 	tail = "\n########################################";
-	// tail = "\n########### End Of Message ###########";
 	msg_tail = ft_strjoin(color, tail);
 	while (msg_tail[index] != '\0')
 	{
@@ -75,7 +74,7 @@ int	main(int argc, char **argv)
 	cl_init(server_pid);
 	if (cl_sigaction_init())
 	{
-		cl_msg_header(server_pid);
+		// cl_msg_header(server_pid);
 		while (argv[ARG_MSG][next_char] != '\0')
 		{
 			ft_putstr_fd("\nSending the char >> ", STDOUT_FILENO);
@@ -84,7 +83,7 @@ int	main(int argc, char **argv)
 			cl_send_bit(server_pid, argv[ARG_MSG][next_char]);
 			next_char++;
 		}
-		cl_msg_tail(server_pid);
+		// cl_msg_tail(server_pid);
 		exit(EXIT_SUCCESS);
 	}
 	return (EXIT_FAILURE);
