@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minitalk.h                                         :+:      :+:    :+:   */
+/*   minitalk_bonus.h                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: umeneses <umeneses@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 12:49:06 by umeneses          #+#    #+#             */
-/*   Updated: 2024/04/28 14:38:16 by umeneses         ###   ########.fr       */
+/*   Updated: 2024/04/28 15:06:08 by umeneses         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINITALK_H
-# define MINITALK_H
+#ifndef MINITALK_BONUS_H
+# define MINITALK_BONUS_H
 
 # include "../libs/libft/includes/libft.h"
 # include <stdio.h>
@@ -64,10 +64,6 @@ int		arg_validation(int argc, char *pid_input);
 void	cl_init(int server_pid, char *msg);
 bool	cl_sigaction_init(void);
 /* client initialization functions */
-
-void	cl_msg_header(int server_pid);
-void	cl_msg_tail(int server_pid);
-/* header and tail messages layout */
 
 void	cl_sendingsignal(int server_pid, char c_msg);
 void	cl_send_bit(int server_pid, char c_msg);

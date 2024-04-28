@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   client_signal.c                                    :+:      :+:    :+:   */
+/*   client_signal_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: umeneses <umeneses@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 17:39:23 by umeneses          #+#    #+#             */
-/*   Updated: 2024/04/28 13:34:04 by umeneses         ###   ########.fr       */
+/*   Updated: 2024/04/28 15:29:09 by umeneses         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minitalk.h"
+#include "minitalk_bonus.h"
 
 static void	server_signal_handler(int signal);
 static int	ft_connection(int income, int check);
@@ -42,6 +42,8 @@ static int	ft_connection(int income, int check)
 
 	if (check == SIG_SET)
 		connection = income;
+	if (check == SIG_GET)
+		ft_putstr_fd("\nServer confirms delivery", STDOUT_FILENO);
 	return (connection);
 }
 

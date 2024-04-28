@@ -6,7 +6,7 @@
 #    By: umeneses <umeneses@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/15 11:58:00 by umeneses          #+#    #+#              #
-#    Updated: 2024/04/27 14:32:55 by umeneses         ###   ########.fr        #
+#    Updated: 2024/04/28 15:35:38 by umeneses         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,10 +28,14 @@ RESET			:= \033[0m
 
 SRC_SERVER_D			= ./src/server/
 SRC_CLIENT_D			= ./src/client/
+BONUS_D					= ./bonus/
+SRC_SV_BONUS_D			= $(BONUS_D)server/
+SRC_CL_BONUS_D			= $(BONUS_D)client/
 BUILD_D					= ./build/
 LIBS_D					= ./libs/
 LIBFT_D					= $(LIBS_D)libft/
 HEADERS_ADDED			= $(LIBFT_D)includes/
+HEADERS_ADDED			+= $(BONUS_D)headers/
 HEADERS					= ./headers/ $(HEADERS_ADDED)
 
 # **************************************************************************** #
@@ -57,6 +61,26 @@ OBJS_SERVER				= $(addprefix $(BUILD_D), $(SERVER_FILES_ALL:%.c=%.o))
 OBJS_CLIENT				= $(addprefix $(BUILD_D), $(CLIENT_FILES_ALL:%.c=%.o))
 OBJS_ALL				= $(OBJS_SERVER) $(OBJS_CLIENT)
 
+# **************************** #
+#			BONUS			   #
+# **************************** #
+
+NAME_SERVER_BONUS		= server_bonus
+NAME_CLIENT_BONUS		= client_bonus
+
+SERVER_FILES_BONUS		= server_main_bonus.c
+
+CLIENT_FILES_BONUS		= client_main_bonus.c
+CLIENT_FILES_BONUS		+= client_signal_bonus.c
+CLIENT_FILES_BONUS		+= client_val_bonus.c
+
+SRC_SV_BONUS_ALL		= $(addprefix $(SRC_SV_BONUS_D), $(SERVER_FILES_BONUS))
+SCR_CL_BONUS_ALL		= $(addprefix $(SRC_CL_BONUS_D), $(CLIENT_FILES_BONUS))
+
+OBJS_SV_BONUS			= $(addprefix $(BUILD_D), $(SRC_SV_BONUS_ALL:%.c=%.o))
+OBJS_CL_BONUS			= $(addprefix $(BUILD_D), $(SCR_CL_BONUS_ALL:%.c=%.o))
+OBJS_ALL_BONUS			= $(OBJS_SV_BONUS) $(OBJS_CL_BONUS)
+
 # **************************************************************************** #
 #								COMMANDS									   #
 # **************************************************************************** #
@@ -64,20 +88,6 @@ OBJS_ALL				= $(OBJS_SERVER) $(OBJS_CLIENT)
 RM					= rm -rf
 MKDIR				= mkdir -p
 MV_OBJS				= find . -type f \( -name '.o' -o -name '.a'\) -exec mv {} \
-
-# **************************************************************************** #
-#								COMPILATION									   #
-# **************************************************************************** #
-
-AUTHOR			= umeneses
-CC				= cc
-CFLAGS			= -Wall -Wextra -Werror -g3
-CPPFLAGS		= $(addprefix -I, $(HEADERS)) -MMD -MP
-LDFLAGS			= $(addprefix -L, $(dir $(LIBS)))
-LDLIBS			= -lft -ldl
-COMP_OBJS		= $(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
-COMP_EXE_SERVER	= $(CC) $(LDFLAGS) $(OBJS_SERVER) $(LDLIBS) -o $(NAME_SERVER)
-COMP_EXE_CLIENT	= $(CC) $(LDFLAGS) $(OBJS_CLIENT) $(LDLIBS) -o $(NAME_CLIENT)
 
 # **************************************************************************** #
 #								DEFINES										   #
@@ -94,10 +104,53 @@ define				minitalk_header
 					@echo "     | | | | | | | | | | | || (_) | |   <      "
 					@echo "     |_| |_| |_|_|_| |_|_|\__\__,_|_|_|\_\     "
 					@echo "                                               "
-					@echo "###############################################"
+					@echo "############### 'CONVERSINHA' #################"
 					@echo "                                               "
 					@printf "$(RESET)"
 endef
+
+define				minitalk_header_bonus
+					@printf "$(CYAN)"
+					@echo "                                               "
+					@echo "###############   WELCOME TO   ################"
+					@echo "                        _ _        _           "
+					@echo "               (_)     (_) |      | | |        "
+					@echo "      _ __ ___  _ _ __  _| |_ __ _| | | __     "
+					@echo "     |  _   _ \| |  _ \| | __/ _  | | |/ /     "
+					@echo "     | | | | | | | | | | | || (_) | |   <      "
+					@echo "     |_| |_| |_|_|_| |_|_|\__\__,_|_|_|\_\     "
+					@echo "                                               "
+					@echo "################  WITH BONUS  #################"
+					@echo "                                               "
+					@printf "$(RESET)"
+endef
+
+ifdef				WITH_BONUS
+	NAME_SERVER		= $(NAME_SERVER_BONUS)
+	NAME_CLIENT		= $(NAME_CLIENT_BONUS)
+	OBJS_SERVER		= $(OBJS_SV_BONUS)
+	OBJS_CLIENT		= $(OBJS_CL_BONUS)
+	OBJS_ALL		= $(OBJS_ALL_BONUS)
+	minitalk_header	= $(minitalk_header_bonus)
+endif
+
+define				bonus
+					$(MAKE) WITH_BONUS=TRUE
+endef
+
+# **************************************************************************** #
+#								COMPILATION									   #
+# **************************************************************************** #
+
+AUTHOR			= umeneses
+CC				= cc
+CFLAGS			= -Wall -Wextra -Werror -g3
+CPPFLAGS		= $(addprefix -I, $(HEADERS)) -MMD -MP
+LDFLAGS			= $(addprefix -L, $(dir $(LIBS)))
+LDLIBS			= -lft -ldl
+COMP_OBJS		= $(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
+COMP_EXE_SERVER	= $(CC) $(LDFLAGS) $(OBJS_SERVER) $(LDLIBS) -o $(NAME_SERVER)
+COMP_EXE_CLIENT	= $(CC) $(LDFLAGS) $(OBJS_CLIENT) $(LDLIBS) -o $(NAME_CLIENT)
 
 # **************************************************************************** #
 #								TARGETS										   #
@@ -115,7 +168,7 @@ $(NAME_SERVER):		libft_lib $(OBJS_SERVER)
 					@printf "$(GREEN)"
 					@echo "SERVER Ready!"
 					@printf "$(YELLOW)"
-					@echo "Next target >>>> client..."
+					@echo "Next target >>> client..."
 					@printf "$(RESET)"
 
 $(NAME_CLIENT):		libft_lib $(OBJS_CLIENT)
@@ -129,15 +182,17 @@ $(NAME_CLIENT):		libft_lib $(OBJS_CLIENT)
 					@echo "Terminal #2: ./client [server's_PID] [your_message]"
 					@printf "$(RESET)"
 
-
 libft_lib:
 					@printf "$(YELLOW)"
 					@echo ">>> Checking LIBFT"
 					@printf "$(CYAN)"
 					@$(MAKE) -C $(LIBFT_D)
 					@printf "$(YELLOW)"
-					@echo "Next target >>>> server..."
+					@echo "Next target >>> server..."
 					@printf "$(RESET)"
+
+bonus:
+					$(call bonus)
 
 clean:
 					@printf "$(RED)"
@@ -153,8 +208,9 @@ fclean:				clean
 					@echo ">>> Cleaning executables"
 					@printf "$(PURPLE)"
 					$(RM) $(NAME_SERVER) $(NAME_CLIENT)
+					$(RM) $(NAME_SERVER_BONUS) $(NAME_CLIENT_BONUS)
 					@printf "$(RESET)"
 
 re:					fclean all
 
-.PHONY:				all clean fclean re
+.PHONY:				all clean fclean re bonus
