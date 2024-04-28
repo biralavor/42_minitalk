@@ -6,7 +6,7 @@
 /*   By: umeneses <umeneses@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 12:49:06 by umeneses          #+#    #+#             */
-/*   Updated: 2024/04/27 18:20:48 by umeneses         ###   ########.fr       */
+/*   Updated: 2024/04/28 14:38:16 by umeneses         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,5 @@ void	cl_msg_tail(int server_pid);
 void	cl_sendingsignal(int server_pid, char c_msg);
 void	cl_send_bit(int server_pid, char c_msg);
 /* client signal functions */
-
-/* non-static server functions */
 
 #endif
