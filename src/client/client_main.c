@@ -6,7 +6,7 @@
 /*   By: umeneses <umeneses@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/18 13:06:25 by umeneses          #+#    #+#             */
-/*   Updated: 2024/04/27 18:22:07 by umeneses         ###   ########.fr       */
+/*   Updated: 2024/04/28 13:36:00 by umeneses         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	cl_init(int server_pid, char *msg)
 	ft_putnbr_fd(server_pid, STDOUT_FILENO);
 	ft_putchar_fd('\n', STDOUT_FILENO);
 	ft_putstr_fd(GREEN, STDOUT_FILENO);
-	ft_putstr_fd("Client is running and sending >> ", STDOUT_FILENO);
+	ft_putstr_fd("Client sent your message >>> ", STDOUT_FILENO);
 	ft_putstr_fd(YELLOW, STDOUT_FILENO);
 	ft_putstr_fd(msg, STDOUT_FILENO);
 	ft_putstr_fd("\n", STDOUT_FILENO);
