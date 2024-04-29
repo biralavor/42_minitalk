@@ -6,7 +6,7 @@
 #    By: umeneses <umeneses@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/15 11:58:00 by umeneses          #+#    #+#              #
-#    Updated: 2024/04/29 10:36:06 by umeneses         ###   ########.fr        #
+#    Updated: 2024/04/29 11:51:41 by umeneses         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -104,7 +104,7 @@ define				minitalk_header
 					@echo "     | | | | | | | | | | | || (_) | |   <      "
 					@echo "     |_| |_| |_|_|_| |_|_|\__\__,_|_|_|\_\     "
 					@echo "                                               "
-					@echo "############### 'CONVERSINHA' #################"
+					@echo "#########   THE CONVERSINHA PROJECT   #########"
 					@echo "                                               "
 					@printf "$(RESET)"
 endef
@@ -125,6 +125,20 @@ define				minitalk_header_bonus
 					@printf "$(RESET)"
 endef
 
+define				instructions
+					@echo "Now, open two terminals and hit on each:"
+					@echo "Terminal #1: ./server"
+					@printf "Terminal #2: ./client "
+					@echo "[server's_PID] [your_message]"
+endef
+
+define				instructions_bonus
+					@echo "Now, open two terminals and hit on each:"
+					@echo "Terminal #1: ./server_bonus"
+					@printf "Terminal #2: ./client_bonus "
+					@echo "[server's_PID] [your_message]"
+endef
+
 ifdef				WITH_BONUS
 	NAME_SERVER		= $(NAME_SERVER_BONUS)
 	NAME_CLIENT		= $(NAME_CLIENT_BONUS)
@@ -132,10 +146,11 @@ ifdef				WITH_BONUS
 	OBJS_CLIENT		= $(OBJS_CL_BONUS)
 	OBJS_ALL		= $(OBJS_ALL_BONUS)
 	minitalk_header	= $(minitalk_header_bonus)
+	instructions	= $(instructions_bonus)
 endif
 
 define				bonus
-					$(MAKE) WITH_BONUS=TRUE
+					$(MAKE) WITH_BONUS=TRUE --no-print-directory
 endef
 
 # **************************************************************************** #
@@ -177,9 +192,7 @@ $(NAME_CLIENT):		libft_lib $(OBJS_CLIENT)
 					@echo "CLIENT Ready!"
 					$(call minitalk_header)
 					@printf "$(YELLOW)"
-					@echo "Now, open two terminals and hit on each:"
-					@echo "Terminal #1: ./server"
-					@echo "Terminal #2: ./client [server's_PID] [your_message]"
+					$(call instructions)
 					@printf "$(RESET)"
 
 libft_lib:
