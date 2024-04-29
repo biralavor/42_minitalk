@@ -6,7 +6,7 @@
 /*   By: umeneses <umeneses@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 12:49:06 by umeneses          #+#    #+#             */
-/*   Updated: 2024/04/28 14:38:16 by umeneses         ###   ########.fr       */
+/*   Updated: 2024/04/29 10:37:18 by umeneses         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 # define MINITALK_H
 
 # include "../libs/libft/includes/libft.h"
-# include <stdio.h>
-# include <unistd.h>
 # include <signal.h>
 # include <fcntl.h>
 # include <stdbool.h>
