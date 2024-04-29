@@ -1,5 +1,8 @@
-# 42_minitalk - Work in Progress @42sp.org.br
+# 42_minitalk - client sending a (づ ᴗ _ᴗ)づ♡ to the server - @42sp.org.br
 This type of project is a IPC (inter-process communication) between 'server' and 'client' TCP (Transmission Control Protocol) process, using UNIX signals (SIGUSR1 and SIGUSR2).
+
+![Screenshot from 2024-04-29 12-38-10](https://github.com/biralavor/42_minitalk/assets/80487147/47d3c6a0-8f34-47f6-a056-b4624d3a8312)
+
 
 It's a message-passing system, which has at least two operations and one method type:
 - (operation of) send a message (with fixed ou variable length size)
