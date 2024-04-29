@@ -3,6 +3,9 @@ This type of project is a IPC (inter-process communication) between 'server' and
 
 ![Screenshot from 2024-04-29 12-38-10](https://github.com/biralavor/42_minitalk/assets/80487147/47d3c6a0-8f34-47f6-a056-b4624d3a8312)
 
+![Screenshot from 2024-04-29 12-46-22](https://github.com/biralavor/42_minitalk/assets/80487147/7e087c5d-42e5-4e0b-b1e8-edc23a66dee0)
+
+
 
 It's a message-passing system, which has at least two operations and one method type:
 - (operation of) send a message (with fixed ou variable length size)
@@ -203,7 +206,6 @@ int	main (int argc, char **argv)
 			printf("client char = %s -> pid[%d]\n", client_char, getpid());
 			sleep(1);
 		}
-		return (0);
 	}
 	else
 	{
