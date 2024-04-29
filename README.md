@@ -105,7 +105,8 @@ Blocked bit-vector records what signals are currentle not allowed to be delivere
 ## Generating, Delivering && Handling Signals - Use Cases
   - Process_ID + Signal Number (or symbolic constant like SIGTERM)
 
-![Screenshot from 2024-04-18 18-04-43](https://github.com/biralavor/42_minitalk/assets/80487147/26c34bc9-5aa2-4a6c-a964-599bbdb881f7)
+![Screenshot from 2024-04-29 12-35-01](https://github.com/biralavor/42_minitalk/assets/80487147/cbe70104-297b-4698-b27d-4e2de6d79e77)
+
 
 
 **Signal handler (int signum)** is a function invoked to response to a given signal. Keep in mid that:
