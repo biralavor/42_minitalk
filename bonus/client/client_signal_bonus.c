@@ -6,7 +6,7 @@
 /*   By: umeneses <umeneses@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/20 17:39:23 by umeneses          #+#    #+#             */
-/*   Updated: 2024/04/28 15:29:09 by umeneses         ###   ########.fr       */
+/*   Updated: 2024/04/29 11:55:47 by umeneses         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,14 @@ static void	server_signal_handler(int signal)
 static int	ft_connection(int income, int check)
 {
 	static volatile int	connection;
+	static volatile int	server_index;
 
 	if (check == SIG_SET)
 		connection = income;
-	if (check == SIG_GET)
-		ft_putstr_fd("\nServer confirms delivery", STDOUT_FILENO);
+	if (income == SIG_SET)
+		server_index++;
+	if (server_index == BYTE_SIZE)
+		ft_putstr_fd("\nServer confirms a char delivery", STDOUT_FILENO);
 	return (connection);
 }
 
