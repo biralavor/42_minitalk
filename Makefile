@@ -6,7 +6,7 @@
 #    By: umeneses <umeneses@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/04/15 11:58:00 by umeneses          #+#    #+#              #
-#    Updated: 2024/04/28 15:35:38 by umeneses         ###   ########.fr        #
+#    Updated: 2024/04/29 10:36:06 by umeneses         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -186,7 +186,7 @@ libft_lib:
 					@printf "$(YELLOW)"
 					@echo ">>> Checking LIBFT"
 					@printf "$(CYAN)"
-					@$(MAKE) -C $(LIBFT_D)
+					@$(MAKE) -C $(LIBFT_D) --no-print-directory
 					@printf "$(YELLOW)"
 					@echo "Next target >>> server..."
 					@printf "$(RESET)"
